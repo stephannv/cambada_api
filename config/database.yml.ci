@@ -1,0 +1,4 @@
+test:
+  adapter: postgresql
+  database: cambada_api_ci_test
+  port: 5432
