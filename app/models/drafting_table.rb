@@ -1,0 +1,2 @@
+module DraftingTable
+end
