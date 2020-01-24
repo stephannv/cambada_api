@@ -26,9 +26,10 @@ module Cambada
         error!({ error: 'Internal server error' }, 500)
       end
 
-      namespace 'drafting_table' do
-        mount DraftingTable::ProjectCategoriesAPI
-        mount DraftingTable::ProjectSubcategoriesAPI
+      namespace 'catalog' do
+        mount Catalog::ProjectCategoriesAPI
+        mount Catalog::ProjectSubcategoriesAPI
+        mount Catalog::ProjectsAPI
       end
     end
   end

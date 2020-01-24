@@ -3,15 +3,17 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '2.6.5'
 
+gem 'aasm', '5.0.6'
 gem 'bootsnap', '1.4.5', require: false
 gem 'friendly_id', '5.3.0'
 gem 'grape', '1.3.0'
 gem 'grape-entity', '0.7.1'
-gem 'mutations', '0.9.0'
+gem 'interactor', '3.1.2'
 gem 'pg', '1.2.2'
 gem 'puma', '4.3.1'
 gem 'rack-cors', '1.1.1'
 gem 'rails', '6.0.2.1'
+gem 'simple_enum', '2.3.2'
 gem 'tzinfo-data', '1.2.6', platforms: %i[mingw mswin x64_mingw jruby]
 
 group :development, :test do

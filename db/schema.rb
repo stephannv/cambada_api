@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_10_230851) do
+ActiveRecord::Schema.define(version: 2020_01_18_212337) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
@@ -27,6 +27,17 @@ ActiveRecord::Schema.define(version: 2020_01_10_230851) do
     t.index ["title"], name: "index_project_categories_on_title", unique: true
   end
 
+  create_table "project_state_transitions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "project_id", null: false
+    t.string "from_state", limit: 50
+    t.string "to_state", limit: 50, null: false
+    t.string "event", limit: 50
+    t.boolean "most_recent"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["project_id"], name: "index_project_state_transitions_on_project_id"
+  end
+
   create_table "project_subcategories", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "project_category_id", null: false
     t.string "title", limit: 64, null: false
@@ -38,5 +49,25 @@ ActiveRecord::Schema.define(version: 2020_01_10_230851) do
     t.index ["project_category_id"], name: "index_project_subcategories_on_project_category_id"
   end
 
+  create_table "projects", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "project_subcategory_id", null: false
+    t.string "project_type", null: false
+    t.string "state", null: false
+    t.string "slug", limit: 200, null: false
+    t.string "title", limit: 80, null: false
+    t.string "short_description", limit: 255
+    t.text "full_description"
+    t.datetime "deadline", precision: 6
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["project_subcategory_id"], name: "index_projects_on_project_subcategory_id"
+    t.index ["project_type"], name: "index_projects_on_project_type"
+    t.index ["slug"], name: "index_projects_on_slug", unique: true
+    t.index ["state"], name: "index_projects_on_state"
+    t.index ["title"], name: "index_projects_on_title", unique: true
+  end
+
+  add_foreign_key "project_state_transitions", "projects"
   add_foreign_key "project_subcategories", "project_categories"
+  add_foreign_key "projects", "project_subcategories"
 end
