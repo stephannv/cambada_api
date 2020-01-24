@@ -14,13 +14,13 @@ RSpec.describe Cambada::V1::BaseAPI, type: :api do
   describe 'Mounted apps' do
     subject { described_class.routes }
 
-    describe 'Drafting Table apps' do
-      it 'mounts Cambada::V1::DraftingTable::ProjectCategoriesAPI app' do
-        is_expected.to include(*Cambada::V1::DraftingTable::ProjectCategoriesAPI.routes)
+    describe 'Catalog apps' do
+      it 'mounts Cambada::V1::Catalog::ProjectCategoriesAPI app' do
+        is_expected.to include(*Cambada::V1::Catalog::ProjectCategoriesAPI.routes)
       end
 
-      it 'mounts Cambada::V1::DraftingTable::ProjectSubcategoriesAPI app' do
-        is_expected.to include(*Cambada::V1::DraftingTable::ProjectSubcategoriesAPI.routes)
+      it 'mounts Cambada::V1::Catalog::ProjectSubcategoriesAPI app' do
+        is_expected.to include(*Cambada::V1::Catalog::ProjectSubcategoriesAPI.routes)
       end
     end
   end
@@ -35,7 +35,7 @@ RSpec.describe Cambada::V1::BaseAPI, type: :api do
     context 'when ActiveRecord::RecordInvalid is raised' do
       before do
         subject.get '/example' do
-          project_category = DraftingTable::ProjectCategory.new
+          project_category = Catalog::ProjectCategory.new
           project_category.errors.add(:title, 'some error')
           raise ActiveRecord::RecordInvalid, project_category
         end
@@ -55,7 +55,7 @@ RSpec.describe Cambada::V1::BaseAPI, type: :api do
     context 'when ActiveRecord::RecordNotDestroyed is raised' do
       before do
         subject.get '/example' do
-          project_category = DraftingTable::ProjectCategory.new
+          project_category = Catalog::ProjectCategory.new
           project_category.errors.add(:base, 'some error')
           raise ActiveRecord::RecordNotDestroyed.new('message', project_category)
         end
